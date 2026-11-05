@@ -79,8 +79,18 @@ shap.force_plot(base_value,
                 X_explain.iloc[patient],
                 matplotlib=True,
                 show=False)
-plt.savefig("force_plot.png", bbox_inches='tight')
+plt.savefig("force_plot.png", bbox_inches="tight")
 
 # %% >> Visualize global features
+# TASK 4: Visualize global Explainer using Summary plot
 # Feature summary
-shap.summary_plot(shap_values, X_test)
+shap.summary_plot(shap_values, X_explain, show=False)
+plt.savefig("summary_plot.png", bbox_inches="tight")
+plt.show()
+
+# Bar version (mean |SHAP|) for slides
+shap.summary_plot(shap_values, X_explain, plot_type="bar", show=False)
+plt.savefig("summary_bar_plot.png", bbox_inches="tight")
+
+
+# %%
