@@ -68,29 +68,24 @@ stroke_index = np.where(prediction == 1)[0]
 patient = int(stroke_index[0]) if len(stroke_index) > 0 else 0 # pick the first patient predicted as stroke
 print(f"The RF predicted: {prediction[patient]}")
 
-force = shap.force_plot(base_value,
-                        shap_values[patient],
-                        X_explain.iloc[patient])
-force
-
-# Save Force plot as image
 shap.force_plot(base_value,
                 shap_values[patient],
                 X_explain.iloc[patient],
                 matplotlib=True,
                 show=False)
-plt.savefig("force_plot.png", bbox_inches="tight")
+
+# Save Force plot as image
+plt.savefig("SHAP_force_plot.png", bbox_inches="tight")
+plt.show()
 
 # %% >> Visualize global features
 # TASK 4: Visualize global Explainer using Summary plot
 # Feature summary
 shap.summary_plot(shap_values, X_explain, show=False)
-plt.savefig("summary_plot.png", bbox_inches="tight")
+plt.savefig("SHAP_summary_plot.png", bbox_inches="tight")
 plt.show()
 
 # Bar version (mean |SHAP|) for slides
 shap.summary_plot(shap_values, X_explain, plot_type="bar", show=False)
-plt.savefig("summary_bar_plot.png", bbox_inches="tight")
-
-
+plt.savefig("SHAP_summary_bar_plot.png", bbox_inches="tight")
 # %%
