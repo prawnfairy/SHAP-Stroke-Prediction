@@ -1,12 +1,13 @@
 # %% Imports
 # Produces every number and figure that the report template asks for, in ONE
 # run, so that all reported values come from the same fitted models.
-# Output: report_numbers.json and report_fig*.png in the current folder.
+# Output: report_numbers.json in the current folder and report_fig*.png in figures/.
 import json
 import platform
 import sys
 import time
 import warnings
+from pathlib import Path
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -26,6 +27,8 @@ from sklearn.preprocessing import StandardScaler
 from utils import DataLoader
 
 warnings.filterwarnings("ignore")
+FIGURES_DIR = Path(__file__).resolve().parent / "figures"
+FIGURES_DIR.mkdir(exist_ok=True)
 SEED = 2021
 N_TREE_EXPLAIN = 500      # held-out rows explained with TreeSHAP
 N_KERNEL_EXPLAIN = 50     # held-out rows explained with Kernel SHAP
@@ -150,7 +153,7 @@ ax[1, 2].bar(rate.index, rate.values, color="#6B7689")
 ax[1, 2].set_title("Stroke rate (%) by smoking status")
 ax[1, 2].tick_params(axis="x", rotation=20)
 plt.tight_layout()
-plt.savefig("report_fig1_eda_panel.png", dpi=200, bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "report_fig1_eda_panel.png", dpi=200, bbox_inches="tight")
 plt.close()
 
 # %% Prepare the modelling data (same steps as 03_shap.py and 06_kernel_shap.py)
@@ -237,7 +240,7 @@ def case_table(sv_row, x_row):
 def save_force(base, sv_row, x_row, fname):
     shap.force_plot(base, sv_row, x_row, matplotlib=True, show=False,
                     figsize=(20, 4), text_rotation=15, contribution_threshold=0.05)
-    plt.savefig(fname, dpi=200, bbox_inches="tight")
+    plt.savefig(FIGURES_DIR / fname, dpi=200, bbox_inches="tight")
     plt.close()
 
 
@@ -245,7 +248,7 @@ def save_summary(sv, X, fname, bar=False):
     plt.figure()
     shap.summary_plot(sv, X, show=False, max_display=len(features),
                       plot_type="bar" if bar else "dot")
-    plt.savefig(fname, dpi=200, bbox_inches="tight")
+    plt.savefig(FIGURES_DIR / fname, dpi=200, bbox_inches="tight")
     plt.close()
 
 

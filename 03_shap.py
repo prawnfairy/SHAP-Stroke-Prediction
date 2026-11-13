@@ -2,10 +2,14 @@
 from utils import DataLoader
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, accuracy_score
+from pathlib import Path
 import shap
 # Added libraries
 import numpy as np 
 import matplotlib.pyplot as plt
+
+FIGURES_DIR = Path(__file__).resolve().parent / "figures"
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # %% Load and preprocess data
 data_loader = DataLoader()
@@ -75,17 +79,17 @@ shap.force_plot(base_value,
                 show=False)
 
 # Save Force plot as image
-plt.savefig("SHAP_force_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "SHAP_force_plot.png", bbox_inches="tight")
 plt.show()
 
 # %% >> Visualize global features
 # TASK 4: Visualize global Explainer using Summary plot
 # Feature summary
 shap.summary_plot(shap_values, X_explain, show=False)
-plt.savefig("SHAP_summary_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "SHAP_summary_plot.png", bbox_inches="tight")
 plt.show()
 
 # Bar version (mean |SHAP|) for slides
 shap.summary_plot(shap_values, X_explain, plot_type="bar", show=False)
-plt.savefig("SHAP_summary_bar_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "SHAP_summary_bar_plot.png", bbox_inches="tight")
 # %%

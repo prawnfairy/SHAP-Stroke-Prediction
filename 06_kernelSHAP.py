@@ -2,12 +2,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from pathlib import Path
 from utils import DataLoader
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import f1_score, accuracy_score
 import shap
+
+FIGURES_DIR = Path(__file__).resolve().parent / "figures"
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # %% Load and preprocess data
 data_loader = DataLoader()
@@ -87,16 +91,16 @@ shap.force_plot(base_value,
                 show=False)
 
 # Save Force plot as image
-plt.savefig("KernelSHAP_force_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "KernelSHAP_force_plot.png", bbox_inches="tight")
 plt.show()
 
 # %% Visualize global features (Summary plot)
 shap.summary_plot(shap_values, X_explain, show=False)
 
-plt.savefig("KernelSHAP_summary_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "KernelSHAP_summary_plot.png", bbox_inches="tight")
 plt.show()
 
 shap.summary_plot(shap_values, X_explain, plot_type="bar", show=False)
-plt.savefig("KernelSHAP_summary_bar_plot.png", bbox_inches="tight")
+plt.savefig(FIGURES_DIR / "KernelSHAP_summary_bar_plot.png", bbox_inches="tight")
 plt.show()
 # %%
